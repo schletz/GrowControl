@@ -1,7 +1,10 @@
-"use strict"
+/* jshint esversion: 8, strict:global */
+/* globals console, ko, fetch */
+"use strict";
+
 class AppViewModel {
     constructor(chart) {
-        this.chartSeries = ko.observable({})
+        this.chartSeries = ko.observable({});
         this.chart = chart;
         this.range = ko.observable(1);
         this.isLoading = ko.observable(false);
@@ -28,7 +31,7 @@ class AppViewModel {
         this.isLoading(false);
         let data = await response.json();
         data.forEach(val => {
-            val.UNIT = this.units[val.VALUETYPE]
+            val.UNIT = this.units[val.VALUETYPE];
         });
 
         let last_timestamp = Math.max(...data.map(val => val.LAST_TIMESTAMP));
@@ -59,9 +62,9 @@ class AppViewModel {
 
         if (chartSeries[id] === undefined) {
             let avgOver = 8 * 3600;
-            if (this.range() <= 30) { avgOver = 15 * 60 }
-            if (this.range() <= 7) { avgOver = 5 * 60 }
-            if (this.range() <= 1) { avgOver = 1 * 60 }
+            if (this.range() <= 30) { avgOver = 15 * 60; }
+            if (this.range() <= 7) { avgOver = 5 * 60; }
+            if (this.range() <= 1) { avgOver = 1 * 60; }
             let response = await fetch('getPlotValues?sensor=' + sensor + '&valuetype=' + valuetype + '&hours=' + this.range() * 24 + '&avg_over=' + avgOver);
             let data = await response.json();
 
