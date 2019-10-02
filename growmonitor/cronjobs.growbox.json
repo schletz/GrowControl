@@ -1,0 +1,36 @@
+{
+    "BME280_RAUM": {
+        "run_at": "* * * * *",
+        "class": "Bme280", 
+        "params": {"i2c_address": "0x77", "bus": 1}
+    },    
+    "BME280_BOX": {
+        "run_at": "* * * * *",
+        "class": "Bme280", 
+        "params": {"i2c_address": "0x76", "bus": 1}
+    },
+    "TSL2561_BOX": {
+        "run_at": "* * * * *", 
+        "class": "Tsl2561", 
+        "params": {"i2c_address": "0x39", "bus": 1}
+    },
+    "LIGHT": {
+        "run_at": "* * * * *",
+        "class": "Relais",
+        "params": {"pin": [25], "onFrom": "3:00", "onTo": "19:00"}
+    },
+    "FAN": {
+        "run_at": "*/10 * * * *",
+        "class": "Fan",
+        "params": {"pin": 24, "lightstate": "LIGHT", "boxsensor": "BME280_BOX", "roomsensor": "BME280_RAUM"}
+    },
+    "WEBCAM": {
+        "run_at": "* * * * *",
+        "class": "Cam",
+        "params": {"timeout": 10}
+    },
+    "RELAYMONITOR": {
+        "run_at": "* * * * *",
+        "class": "Relaymonitor"
+    }                 
+}

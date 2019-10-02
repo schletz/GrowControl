@@ -1,0 +1,60 @@
+@font-face {
+	font-family: 'DOTMATRI';
+	src: url('./DOTMATRI.eot');
+	src: local('DOTMATRI'), url('./DOTMATRI.woff') format('woff'), url('./DOTMATRI.ttf') format('truetype');
+}
+/* use this class to attach this font to any element i.e. <p class="fontsforweb_fontid_507">Text with this font applied</p> */
+.fontsforweb_fontid_507 {
+	font-family: 'DOTMATRI' !important;
+}
+
+/* Font downloaded from FontsForWeb.com */
+
+body {
+    background-color: #1E1E1E;
+    color:#2EFC16;
+    font-size: 200%;
+    line-height: 100%;    
+}
+
+.active {
+    color:wheat;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.bordertop {
+    border-top:1px solid #2EFC16;
+}
+
+.valuecell {
+    border-right:1px solid #2EFC16;
+}
+
+.sensorcell {
+    border:1px solid #2EFC16;    
+
+}
+.sensorcell p {
+    margin: 0px;
+}
+.smalldotfont {
+    font-family: 'DOTMATRI';    
+    font-size: 70%;
+    line-height: 100%;
+}
+
+.normaldotfont {
+    font-family: 'DOTMATRI';    
+    font-size: 100%;
+    line-height: 100%;
+}
+
+.bigdotfont {
+    font-family: 'DOTMATRI';    
+    font-size: 141%;
+    line-height: 100%;
+}
+

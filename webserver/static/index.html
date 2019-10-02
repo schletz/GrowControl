@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="dark-unica.js"></script>
+
+    <script src="index.vm.js"></script>
+
+    <title>Grow Monitor</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row align-items-center py-1">
+            <div class="col-12 smalldotfont">
+                GrowMonitor
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-12 col-sm-8 bigdotfont">
+                <div class="spinner-border" role="status" data-bind="visible: isLoading()"><span
+                        class="sr-only">Loading...</span></div>
+                <div data-bind="visible: !isLoading()">
+                    <span data-bind="text: last_date"></span> <span data-bind="text: last_time"
+                        style="font-weight: bold"></span>
+
+                </div>
+            </div>
+            <div class="col-12 col-sm-4 normaldotfont">
+                <ul class="nav float-right">
+                    <li class="nav-item px-3 pointer"
+                        data-bind="css: {'active': range() == 1}, click: function(){$root.refresh(1)}">1d</li>
+                    <li class="nav-item px-3 pointer"
+                        data-bind="css: {'active': range() == 7}, click: function(){$root.refresh(7)}">7d</li>
+                    <li class="nav-item px-3 pointer"
+                        data-bind="css: {'active': range() == 30}, click: function(){$root.refresh(30)}">30d</li>
+
+                </ul>
+            </div>
+
+        </div>
+        <div class="row align-items-top">
+            <div class="col-12 col-md-6 col-lg-4 sensorcell">
+                <div class="row">
+                    <div class="normaldotfont col-12 py-2 ">
+                        BME 280 BOX
+                    </div>
+                </div>
+                <div class="row" data-bind="foreach: bme280_box_data">
+                    <div class="col valuecell py-1"
+                        data-bind="css: {'active': $root.isSeriesDisplayed($data.SENSOR, $data.VALUETYPE)}, click: function(){$root.refresh(30)}, click: function(){$root.addToChart($data.SENSOR, $data.VALUETYPE)}">
+                        <p class="smalldotfont" data-bind="text: VALUETYPE"></p>
+                        <p class="normaldotfont"><span
+                                data-bind="text: $root.getVal($data.LAST_VALUE)"></span>&thinsp;<span
+                                data-bind="text: $root.getVal($data.UNIT)"></span></p>
+                        <p class="smalldotfont">MAX:&nbsp;<span data-bind="text: $root.getVal($data.MAX)"></span></p>
+                        <p class="smalldotfont">AVG:&nbsp;<span data-bind="text: $root.getVal($data.AVG)"></span></p>
+                        <p class="smalldotfont">MIN:&nbsp;<span data-bind="text: $root.getVal($data.MIN)"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4 sensorcell">
+                <div class="row">
+                    <div class="normaldotfont col-12 py-2 ">
+                        BME 280 RAUM
+                    </div>
+                </div>
+                <div class="row" data-bind="foreach: bme280_raum_data">
+                    <div class="col valuecell py-1"
+                        data-bind="css: {'active': $root.isSeriesDisplayed($data.SENSOR, $data.VALUETYPE)}, click: function(){$root.refresh(30)}, click: function(){$root.addToChart($data.SENSOR, $data.VALUETYPE)}">
+                        <p class="smalldotfont" data-bind="text: VALUETYPE"></p>
+                        <p class="normaldotfont"><span
+                                data-bind="text: $root.getVal($data.LAST_VALUE)"></span>&thinsp;<span
+                                data-bind="text: $root.getVal($data.UNIT)"></span></p>
+                        <p class="smalldotfont">MAX:&nbsp;<span data-bind="text: $root.getVal($data.MAX)"></span></p>
+                        <p class="smalldotfont">AVG:&nbsp;<span data-bind="text: $root.getVal($data.AVG)"></span></p>
+                        <p class="smalldotfont">MIN:&nbsp;<span data-bind="text: $root.getVal($data.MIN)"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4 sensorcell">
+                <div class="row">
+                    <div class="normaldotfont col-12 py-2 ">
+                        RELAIS
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col valuecell py-1">
+                        <div data-bind="foreach: relaymonitor_data">
+                            <p class="smalldotfont"><span data-bind="text: $root.getVal($data.VALUETYPE)"></span>&nbsp;
+                                <span data-bind="text: $root.getVal($data.LAST_VALUE)"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row align-items-top bordertop">
+            <div class="col-12 px-0" data-bind="hidden: isSeriesDisplayed()">
+                <p class="smalldotfont">Klicke auf einen Wert, um das Diagramm anzuzeigen.</p>
+            </div>
+        </div>
+        <div class="row align-items-top bordertop" data-bind="visible: isSeriesDisplayed()">
+            <div class="col-12 px-0" id="chart">
+            </div>
+        </div>
+        <div class="row align-items-top bordertop">
+            <div class="col-12 px-0">
+                <img src="webcam.jpg" style="width:100%">
+            </div>
+        </div>
+    </div> <!-- class="container-fluid" -->
+
+
+
+
+    <script type="text/javascript">
+        var chart = Highcharts.chart('chart', {
+            title: { text: null },
+            chart: { zoomType: 'x'},
+            time: {useUTC: false},
+            xAxis: {
+                type: 'datetime',
+                dateTimeLabelFormats: { day: '%a, %e.%m.', hour: '%H h' },
+                gridLineWidth: 2, minorGridLineWidth: 1                
+            },
+            yAxis: [
+                {
+                    id: "temp", labels: { format: '{value}°C' }, title: { text: null },
+                    tickInterval: 2, minorGridLineColor: "#cccccc", gridLineColor: "#999999",
+                    plotLines: [{ value: 0, color: '#000000', width: 2 }]
+                },
+                {
+                    id: "hum", labels: { format: '{value}%' }, title: { text: null },
+                    tickInterval: 2, minorGridLineColor: "#cccccc", gridLineColor: "#999999",
+                    plotLines: [{ value: 0, color: '#000000', width: 2 }],
+                    opposite: true
+                }                
+            ]
+        });    
+    </script>
+    <script type="text/javascript">
+        var vm = new AppViewModel(chart);
+        ko.applyBindings(vm)
+    </script>
+</body>
+
+</html>
